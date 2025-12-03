@@ -1,0 +1,5 @@
+mountpoints:
+  /:
+    url: "https://author-p158352-e1686153.adobeaemcloud.com/bin/franklin.delivery/salvamolaso/eds/main"
+    type: "markup"
+    suffix: ".html"

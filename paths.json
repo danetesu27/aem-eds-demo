@@ -1,0 +1,22 @@
+{
+  "mappings": [
+    "/content/eds/language-masters/en:/",
+    "/content/eds/language-masters/en/:/en/",
+    "/content/eds/language-masters/fr/:/fr/",
+    "/content/eds/language-masters/fr:/fr",
+    "/content/eds/language-masters/es/:/es/",
+    "/content/eds/language-masters/es:/es",
+    "/content/eds/language-masters/ja/:/ja/",
+    "/content/eds/language-masters/ja:/ja",
+    "/content/eds/language-masters/de/:/de/",
+    "/content/eds/language-masters/de:/de",
+    "/content/eds/configuration:/.helix/config.json",
+    "/content/eds/metadata:/metadata.json",
+    "/content/eds/redirects:/redirects.json",
+    "/content/eds/placeholders:/placeholders.json"
+  ],
+  "includes": [
+    "/content/eds/",
+    "/content/dam/eds/"
+  ]
+}
