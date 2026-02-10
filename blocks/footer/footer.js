@@ -2,22 +2,12 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
 
-import {
-  getLanguage, getSiteName, TAG_ROOT, PATH_PREFIX, fetchLanguageNavigation,
-} from '../../scripts/utils.js';
-
 /**
  * loads and decorates the footer
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
   const footerMeta = getMetadata('footer');
-  const langCode = getLanguage();
-  const siteName = await getSiteName();
-  const isAuthor = isAuthorEnvironment();
-  let footerPath =`/${langCode}/footer`;
-
-  if(isAuthor){
   const isAuthor = isAuthorEnvironment();
   let footerPath = `/footer`;
 
@@ -32,8 +22,17 @@ export default async function decorate(block) {
 
   // decorate footer DOM
   block.textContent = '';
+
+  if (!fragment) {
+    console.warn('Footer: fragment not loaded. Footer content may not be authored yet.');
+    block.innerHTML = '<p>Footer content not available</p>';
+    return;
+  }
+
   const footer = document.createElement('div');
-  while (fragment && fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  while (fragment && fragment.firstElementChild) {
+    footer.append(fragment.firstElementChild);
+  }
 
   block.append(footer);
 }

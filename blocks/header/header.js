@@ -75,6 +75,10 @@ function focusNavSection() {
  * @param {Boolean} expanded Whether the element should be expanded or collapsed
  */
 function toggleAllNavSections(sections, expanded = false) {
+    if (!sections) {
+      console.warn('toggleAllNavSections: sections is null or undefined');
+      return;
+    }
     const navSections = sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li');
     if (navSections && navSections.length > 0) {
       navSections.forEach((section) => {
@@ -114,6 +118,12 @@ async function toggleMenu(nav, navSections, forceExpanded = null) {
     return;
   }*/
   
+  // Validar que navSections existe
+  if (!navSections) {
+    console.warn('toggleMenu: navSections is null or undefined');
+    return;
+  }
+
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
   document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
@@ -536,6 +546,8 @@ export default async function decorate(block) {
         }
       });
     });
+  } else {
+    console.warn('Header: nav-sections element not found. Nav content may not be authored yet.');
   }
 
   const navTools = nav.querySelector('.nav-tools');
@@ -641,12 +653,20 @@ export default async function decorate(block) {
   hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
       <span class="nav-hamburger-icon"></span>
     </button>`;
-  hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
+  hamburger.addEventListener('click', () => {
+    if (navSections) {
+      toggleMenu(nav, navSections);
+    } else {
+      console.warn('Cannot toggle menu: navSections not found');
+    }
+  });
   nav.prepend(hamburger);
   nav.setAttribute('aria-expanded', 'false');
   // prevent mobile nav behavior on window resize
-  toggleMenu(nav, navSections, isDesktop.matches);
-  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+  if (navSections) {
+    toggleMenu(nav, navSections, isDesktop.matches);
+    isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+  }
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
