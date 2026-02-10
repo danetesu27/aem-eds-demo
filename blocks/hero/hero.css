@@ -1,5 +1,5 @@
 /* --------------------------
-   Base Hero Layout
+   Base Hero Layout - CaixaBank
 --------------------------- */
 .hero-container .hero-wrapper {
   max-width: unset;
@@ -9,10 +9,45 @@
 .hero {
   position: relative;
   padding: 40px 24px;
-  min-height: 700px;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+/* === CAROUSEL SLIDES === */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--transition-slower) ease-in-out;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* Carousel overlay */
+.hero-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-dark);
+  z-index: 1;
+}
+
+/* Content above overlay */
+.hero-slide > * {
+  position: relative;
+  z-index: 2;
 }
 
 /* --------------------------
@@ -28,20 +63,27 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  color: var(--text-light);
+  color: var(--text-white);
   text-align: center;
-  font-family: var(--black-font-family);
+  font-family: var(--font-family-heading);
+  animation: fadeInUp var(--duration-slow) ease-out;
+}
+
+.hero h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
 }
 
 /* Special underline (only for h1 by default) */
 .hero h1::after {
-  background-color: var(--main-accent-color);
+  background-color: var(--primary-color);
   content: "";
   display: block;
-  height: 5px;
+  height: 4px;
   margin: 20px auto 30px;
   width: 128px;
-  transition: width .4s ease-in-out;
+  transition: width var(--transition-base) ease-in-out;
 }
 
 /* Remove underline when class applied */
@@ -57,65 +99,92 @@
 /* --------------------------
    Hero Background Image
 --------------------------- */
-.hero picture {
+.hero picture,
+.hero-slide picture {
   position: absolute;
-  z-index: -1;
+  z-index: 0;
   inset: 0;
   box-sizing: border-box;
 }
 
-.hero img {
+.hero img,
+.hero-slide img {
   object-fit: cover;
-  object-position: left;
+  object-position: center;
   width: 100%;
   height: 100%;
 }
 
-/* --------------------------
-   Buttons
---------------------------- */
+/* === CAROUSEL NAVIGATION DOTS === */
+.hero-dots {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
 
+.hero-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--text-white);
+  background-color: transparent;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  padding: 0;
+}
+
+.hero-dot:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.2);
+}
+
+.hero-dot.active {
+  background-color: var(--text-white);
+}
+
+.hero-dot:focus-visible {
+  outline: 2px solid var(--text-white);
+  outline-offset: 4px;
+}
+
+/* --------------------------
+   Buttons - CaixaBank
+--------------------------- */
 
 /* Primary CTA */
 .hero-wrapper .button-container.cta-button a.button {
-  background-color: var(--main-accent-color);
-  border: 2px solid var(--main-accent-color);
-}
-
-.hero-wrapper .button-container.cta-button a.button::after {
-  content: "\f105";
-  font-family: 'Font Awesome 5 Solid';
-  font-size: 20px;
-  margin-left: 8px;
-  transition: all 0.3s ease;
-  color: var(--text-light);
+  background-color: var(--button-primary-bg);
+  border: 2px solid var(--button-primary-bg);
+  color: var(--button-primary-text);
 }
 
 .hero-wrapper .button-container.cta-button a.button:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  color: var(--text-light) !important;
-  border-color: var(--text-light) !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
-  transform: translateY(-1px);
-}
-
-.hero-wrapper .button-container.cta-button a.button:hover::after {
-  color: var(--text-light) !important;
-  transform: translateX(2px);
+  background-color: var(--button-primary-hover);
+  border-color: var(--button-primary-hover);
+  color: var(--button-primary-text);
+  box-shadow: var(--box-shadow-lg);
+  transform: translateY(-2px);
 }
 
 /* Secondary CTA */
 .hero-wrapper .button-container.cta-button-secondary a.button {
   background: transparent;
-  border: 2px solid var(--main-accent-color);
-  color: var(--text-light);
+  border: 2px solid var(--text-white);
+  color: var(--text-white);
 }
 
-.hero-wrapper .button-container.cta-button-secondary a.button::after {
-  content: "\f105";
-  font-family: 'Font Awesome 5 Solid';
-  font-size: 20px;
-  margin-left: 8px;
+.hero-wrapper .button-container.cta-button-secondary a.button:hover {
+  background-color: var(--text-white);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
   transition: all 0.3s ease;
   color: var(--text-light);
 }
@@ -484,8 +553,75 @@ picture {
 }
 
 /*button theme hero specific*/
-.hero.block.overlay .button-container.cta-link a.button,.hero.image-background-text-left .button-container.cta-link a.button,.hero.image-background-text-right .button-container.cta-link a.button {
+.hero.block.overlay .button-container.cta-link a.button::after  ,.hero.image-background-text-left .button-container.cta-link a.button::after,.hero.image-background-text-right .button-container.cta-link a.button::after  {
   color: var(--text-light);
+}
+
+/* === RESPONSIVE - CAIXABANK MOBILE FIRST === */
+
+/* Tablet: >= 768px */
+@media (width >= 768px) {
+  .hero,
+  .hero-slide {
+    min-height: 500px;
+    padding: 60px 32px;
+  }
+
+  .hero-dots {
+    bottom: 40px;
+    gap: 16px;
+    padding: 12px 24px;
+  }
+
+  .hero-dot {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Desktop: >= 1024px */
+@media (width >= 1024px) {
+  .hero,
+  .hero-slide {
+    min-height: 600px;
+    padding: 80px 48px;
+  }
+
+  .hero h1 {
+    max-width: 900px;
+  }
+
+  .hero-dots {
+    bottom: 50px;
+  }
+}
+
+/* Wide Desktop: >= 1440px */
+@media (width >= 1440px) {
+  .hero,
+  .hero-slide {
+    min-height: 650px;
+  }
+
+  .hero h1 {
+    max-width: 1000px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide {
+    transition: none;
+  }
+
+  .hero h1,
+  .hero h2,
+  .hero h3,
+  .hero h4,
+  .hero h5,
+  .hero h6 {
+    animation: none;
+  }
 }
 
 .hero.block.overlay .button-container.cta-link a.button::after  ,.hero.image-background-text-left .button-container.cta-link a.button::after,.hero.image-background-text-right .button-container.cta-link a.button::after  {

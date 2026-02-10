@@ -1,28 +1,31 @@
-/* header and nav layout */
+/* header and nav layout - CaixaBank Theme */
 header .nav-wrapper {
-  background-color: var(--dark-color-opacity);
+  background-color: var(--background-color);
   width: 100%;
   z-index: 2;
   position: fixed;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow-sm);
+  transition: box-shadow var(--transition-base);
+}
+
+/* Enhanced shadow when scrolled */
+header.scrolled .nav-wrapper {
+  box-shadow: var(--box-shadow-md);
 }
 
 header nav {
   box-sizing: border-box;
-  display: grid;
-  grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
+  display: flex;
   align-items: center;
   gap: 0 24px;
   margin: auto;
   max-width: 1248px;
   height: var(--nav-height);
   padding: 0 24px;
-  font-family: var(--body-font-family);
+  font-family: var(--font-family-base);
   position: relative;
   min-height: 90px;
-  align-items: center;
-  display: flex;
 }
 
 header nav[aria-expanded='true'] {
@@ -31,6 +34,7 @@ header nav[aria-expanded='true'] {
     'sections sections' 1fr
     'tools tools' var(--nav-height) / auto 1fr;
   overflow-y: auto;
+  background-color: var(--background-color);
 }
 
 @media (width >= 900px) {
@@ -67,8 +71,33 @@ header nav p {
 }
 
 header nav a:any-link {
-  color: currentcolor;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color var(--transition-base);
+  position: relative;
 }
+
+header nav a:hover {
+  color: var(--primary-color);
+}
+
+/* Active page indicator */
+header nav a[aria-current="page"] {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+}
+
+header nav a[aria-current="page"]::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
 header nav a::after, header nav a:hover::after, header nav a.button::after {
   content: '';
 }
@@ -90,10 +119,16 @@ header nav .nav-hamburger button {
   border-radius: 0;
   padding: 0;
   background-color: transparent;
-  color: var(--text-light);
+  color: var(--text-color);
   overflow: initial;
   text-overflow: initial;
   white-space: initial;
+  cursor: pointer;
+  transition: color var(--transition-base);
+}
+
+header nav .nav-hamburger button:hover {
+  color: var(--primary-color);
 }
 
 header nav .nav-hamburger-icon,
@@ -459,7 +494,6 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
     visibility: visible;
     align-self: start;
     display: flex;
-    visibility: visible;
     align-items: flex-start;
     justify-content: flex-start;
     position: fixed;
@@ -470,7 +504,7 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
     padding: 8% 3%;
     text-align: center;
     z-index: 11111111;
-    background-color: var(--dark-color-opacity);
+    background-color: var(--background-color);
   }
 
   header nav .nav-sections ul {
@@ -485,3 +519,48 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
   }
 
 }
+
+/* === BOTONES CTA HEADER - CAIXABANK === */
+header nav .button-container {
+  margin-left: auto;
+}
+
+header nav .button-container a.button {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border: 2px solid var(--button-primary-bg);
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  transition: all var(--transition-base);
+  display: inline-block;
+}
+
+header nav .button-container a.button:hover {
+  background-color: var(--button-primary-hover);
+  border-color: var(--button-primary-hover);
+  color: var(--button-primary-text);
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-md);
+}
+
+header nav .button-container a.button:active {
+  transform: translateY(0);
+  box-shadow: var(--box-shadow-sm);
+}
+
+/* Mobile menu background update */
+@media (width < 900px) {
+  header nav[aria-expanded='true'] .nav-sections {
+    background-color: var(--background-color);
+  }
+
+  header nav .button-container a.button {
+    display: block;
+    text-align: center;
+    margin: 16px 0;
+  }
+}
+

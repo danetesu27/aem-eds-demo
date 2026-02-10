@@ -73,6 +73,7 @@ export default function decorate(block) {
     
     ul.append(li);
   });
+
   ul.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
@@ -81,4 +82,32 @@ export default function decorate(block) {
  
   block.textContent = '';
   block.append(ul);
+
+  // Make entire card clickeable (UX improvement)
+  ul.querySelectorAll('li').forEach((card) => {
+    const link = card.querySelector('a');
+    if (link) {
+      // Add cursor pointer to card
+      card.style.cursor = 'pointer';
+
+      // Make entire card clickeable
+      card.addEventListener('click', (e) => {
+        // Don't trigger if clicking directly on the link (prevent double trigger)
+        if (e.target !== link && !link.contains(e.target)) {
+          link.click();
+        }
+      });
+
+      // Keyboard accessibility
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'article');
+
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          link.click();
+        }
+      });
+    }
+  });
 }

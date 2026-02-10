@@ -22,33 +22,102 @@
 */
 
 :root {
-  /* colors */
-  --background-color: var(--brand-background-color, #ffffff);
+  /* === COLORES PRIMARIOS CAIXABANK === */
+  --primary-color: #0073C8;
+  --primary-dark: #005A9C;
+  --secondary-color: #FF6200;
+  --accent-color: #00A3E0;
+
+  /* === COLORES DE TEXTO === */
+  --text-color: #333333;
+  --text-color-light: #666666;
+  --text-color-lighter: #999999;
+  --heading-color: #000000;
+  --text-white: #FFFFFF;
+
+  /* === COLORES DE FONDO === */
+  --background-color: #FFFFFF;
+  --background-alt: #F8F8F8;
+  --background-light: #F5F5F5;
+  --background-dark: #1A1A1A;
+
+  /* === COLORES DE BOTONES === */
+  --button-primary-bg: #0073C8;
+  --button-primary-text: #FFFFFF;
+  --button-primary-hover: #005A9C;
+  --button-secondary-bg: transparent;
+  --button-secondary-text: #0073C8;
+  --button-secondary-border: #0073C8;
+  --button-secondary-hover: #F0F7FC;
+
+  /* === ESTADOS === */
+  --hover-color: #005A9C;
+  --focus-color: #0073C8;
+  --focus-outline: rgba(0, 115, 200, 0.3);
+  --disabled-color: #CCCCCC;
+
+  /* === BORDES Y SOMBRAS === */
+  --border-color: #E0E0E0;
+  --border-color-light: #F0F0F0;
+  --box-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --box-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --box-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+
+  /* === OVERLAY === */
+  --overlay-dark: rgba(0, 0, 0, 0.4);
+  --overlay-light: rgba(255, 255, 255, 0.9);
+
+  /* Legacy colors (compatibility) */
   --dark-color: var(--brand-dark-color, #131313);
   --light-color: var(--brand-light-color, #dcdcdc);
-  --text-color: var(--brand-text-color, #131313);
   --text-light: var(--brand-light-text-color, #ffffff);
-  --text-disabled:rgb(113, 113, 113);
-  --link-color: var(--brand-link-color, #131313);
-  --link-hover-color: var(--brand-link-hover-color, #F97316);
-  --main-accent-color: var(--brand-theme-color, #FB923C);
-
-
+  --text-disabled: rgb(113, 113, 113);
+  --link-color: var(--primary-color);
+  --link-hover-color: var(--primary-dark);
+  --main-accent-color: var(--primary-color);
   --dark-color-opacity: rgba(0, 0, 0, 0.55);
   --light-color-opacity: rgba(255, 255, 255, 0.5);
 
-  /* brand-scoped header/footer variables with sensible defaults */
-  --nav-background-color: var(--brand-nav-background-color, #0000008c);
-  --nav-text-color: var(--brand-nav-text-color, #ffffff);
-  --footer-background-color: var(--brand-footer-background-color, #000);
-  --footer-text-color: var(--brand-footer-text-color, #ffffff);
-  
-  /* fonts */
-  --body-font-family: 'Adobe Clean', roboto, roboto-fallback, sans-serif;
-  --heading-font-family: 'Adobe Clean Bold', roboto-condensed, roboto-condensed-fallback, sans-serif;
-  --light-font-family: 'Adobe Clean Light', roboto, roboto-fallback, sans-serif;
-  --extra-font-family: 'Adobe Clean Extra Bold', roboto, roboto-fallback, sans-serif;
-  --black-font-family: 'Adobe Clean Black', roboto, roboto-fallback, sans-serif;
+  /* brand-scoped header/footer variables */
+  --nav-background-color: var(--background-color);
+  --nav-text-color: var(--text-color);
+  --footer-background-color: var(--background-light);
+  --footer-text-color: var(--text-color-light);
+
+  /* === TIPOGRAFÍA CAIXABANK === */
+  --font-family-base: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-heading: 'Roboto Condensed', 'Roboto', sans-serif;
+
+  /* Tamaños - Mobile First */
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+
+  --font-size-h1: 2rem;         /* 32px mobile */
+  --font-size-h2: 1.5rem;       /* 24px mobile */
+  --font-size-h3: 1.25rem;      /* 20px mobile */
+  --font-size-h4: 1.125rem;     /* 18px mobile */
+
+  /* Pesos */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.2;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+
+  /* Legacy fonts (compatibility) */
+  --body-font-family: var(--font-family-base);
+  --heading-font-family: var(--font-family-heading);
+  --light-font-family: var(--font-family-base);
+  --extra-font-family: var(--font-family-heading);
+  --black-font-family: var(--font-family-heading);
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -97,6 +166,32 @@
 
   /* nav height */
   --nav-height: 64px;
+
+  /* === BREAKPOINTS === */
+  --breakpoint-mobile: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+
+  /* === TRANSICIONES Y ANIMACIONES === */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-slower: 0.8s ease;
+
+  /* Durations */
+  --duration-instant: 0.1s;
+  --duration-fast: 0.2s;
+  --duration-base: 0.3s;
+  --duration-slow: 0.5s;
+  --duration-slower: 0.8s;
+  --duration-slowest: 1.2s;
+
+  /* Easing */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* fallback fonts */
@@ -110,6 +205,132 @@
   font-family: roboto-fallback;
   size-adjust: 99.529%;
   src: local('Arial');
+}
+
+/* === ANIMACIONES CSS CAIXABANK === */
+
+/* Fade In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade In Up - Hero Titles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Down - Dropdowns */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide In from Right - Mobile Menu */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Slide In from Left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Scale In - Cards on Hover */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Pulse - Country Flags */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Slide Up - Cards Entry */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Carousel Fade */
+@keyframes carouselFade {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Shimmer Loading */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Rotate - Loading Spinner */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (width >= 900px) {
@@ -129,6 +350,36 @@
   }
 }
 
+/* === MEDIA QUERIES CAIXABANK - MOBILE FIRST === */
+
+/* Tablet: >= 768px */
+@media (width >= 768px) {
+  :root {
+    --font-size-h1: 2.5rem;       /* 40px */
+    --font-size-h2: 2rem;         /* 32px */
+    --font-size-h3: 1.5rem;       /* 24px */
+    --font-size-h4: 1.25rem;      /* 20px */
+    --font-size-base: 1.125rem;   /* 18px */
+  }
+}
+
+/* Desktop: >= 1024px */
+@media (width >= 1024px) {
+  :root {
+    --font-size-h1: 3rem;         /* 48px */
+    --font-size-h2: 2.25rem;      /* 36px */
+    --font-size-h3: 1.75rem;      /* 28px */
+    --font-size-h4: 1.5rem;       /* 24px */
+  }
+}
+
+/* Wide Desktop: >= 1440px */
+@media (width >= 1440px) {
+  :root {
+    --font-size-h1: 3.5rem;       /* 56px */
+    --font-size-h2: 2.5rem;       /* 40px */
+  }
+}
 /*
   Desktop: >= 1024px
   Tab: 768px - 1023px
@@ -308,9 +559,10 @@ body {
   margin: 0;
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -417,26 +669,27 @@ h5,
 h6 {
   margin-top: 0.8em;
   margin-bottom: 0.25em;
-  font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--heading-color);
   scroll-margin: 40px;
 }
 
 h1 {
-  font-size: var(--heading-font-size-xxl);
+  font-size: var(--font-size-h1);
 }
 
 h2 {
-  font-size: var(--heading-font-size-xl);
+  font-size: var(--font-size-h2);
 }
 
 h3 {
-  font-size: var(--heading-font-size-l);
+  font-size: var(--font-size-h3);
 }
 
 h4 {
-  font-size: var(--heading-font-size-m);
+  font-size: var(--font-size-h4);
 }
 
 h5 {
@@ -445,6 +698,36 @@ h5 {
 
 h6 {
   font-size: var(--heading-font-size-xs);
+}
+
+/* === FOCUS VISIBLE - ACCESIBILIDAD === */
+
+/* Focus visible para navegación por teclado */
+*:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Remover outline cuando no es foco por teclado */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus específico para botones */
+button:focus-visible,
+a.button:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 4px;
+}
+
+/* Focus para inputs */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 0;
+  border-color: var(--focus-color);
 }
 
 p,
