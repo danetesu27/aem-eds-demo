@@ -33,6 +33,58 @@
   ],
   "models": [
     {
+      "id": "header",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "logo",
+          "label": "Logo",
+          "description": "Logo de la empresa"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "logoLink",
+          "label": "Logo Link",
+          "value": "/",
+          "description": "URL del enlace del logo (por defecto home)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "ctaText",
+          "label": "CTA Button Text",
+          "value": "Accede a tu banca digital",
+          "description": "Texto del botón CTA principal"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "ctaLink",
+          "label": "CTA Button Link",
+          "value": "#",
+          "description": "URL del botón CTA"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "stockPrice",
+          "label": "Stock Price",
+          "value": "",
+          "description": "Precio de la acción (ej: 4.50 €)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "languages",
+          "label": "Languages",
+          "value": "ES,EN,CA",
+          "description": "Idiomas disponibles separados por coma"
+        }
+      ]
+    },
+    {
       "id": "navigation-item",
       "fields": [
         {

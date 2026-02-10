@@ -75,33 +75,6 @@ function startAutoPlay(block, interval = 5000) {
  * @param {Element} block
  */
 export default function decorate(block) {
-  // Get configuration options
-  const enableUnderline = block.querySelector(':scope div:nth-child(3) > div')?.textContent?.trim() || 'false';
-  const layoutStyle = block.querySelector(':scope div:nth-child(4) > div')?.textContent?.trim() || 'overlay';
-  const ctaStyle = block.querySelector(':scope div:nth-child(5) > div')?.textContent?.trim() || 'default';
-  const backgroundStyle = block.querySelector(':scope div:nth-child(6) > div')?.textContent?.trim() || 'default';
-
-  // Apply classes
-  if (layoutStyle) {
-    block.classList.add(`${layoutStyle}`);
-  }
-
-  if (backgroundStyle) {
-    block.classList.add(`${backgroundStyle}`);
-  }
-
-  // Add removeunderline class if underline is disabled
-  if (enableUnderline.toLowerCase() === 'false') {
-    block.classList.add('removeunderline');
-  }
-  
-  // Find the button container within the hero block
-  const buttonContainer = block.querySelector('p.button-container');
-  
-  if (buttonContainer) {
-    buttonContainer.classList.add(`cta-${ctaStyle}`);
-  }
-  
   // === CAROUSEL FUNCTIONALITY ===
 
   // Wrap each top-level div as a slide
@@ -109,10 +82,41 @@ export default function decorate(block) {
 
   if (slides.length > 0) {
     slides.forEach((slide, index) => {
+      // Extract slide data
+      const picture = slide.querySelector('picture');
+      const link = slide.querySelector('a');
+      const linkUrl = link?.href || '#';
+      const textContent = slide.querySelector('h1, h2, h3, h4, h5, h6, p:not(.button-container)');
+
+      // Clear slide
+      slide.innerHTML = '';
       slide.classList.add('hero-slide');
       slide.setAttribute('role', 'tabpanel');
       slide.setAttribute('aria-label', `Slide ${index + 1}`);
       slide.setAttribute('aria-hidden', index !== 0 ? 'true' : 'false');
+
+      // Create clickable wrapper
+      const slideLink = document.createElement('a');
+      slideLink.href = linkUrl;
+      slideLink.className = 'hero-slide-link';
+      slideLink.setAttribute('aria-label', textContent?.textContent || `Slide ${index + 1}`);
+
+      // Add background image
+      if (picture) {
+        const bgPicture = picture.cloneNode(true);
+        bgPicture.classList.add('hero-background');
+        slideLink.appendChild(bgPicture);
+      }
+
+      // Add text content
+      if (textContent) {
+        const contentWrapper = document.createElement('div');
+        contentWrapper.className = 'hero-content';
+        contentWrapper.appendChild(textContent.cloneNode(true));
+        slideLink.appendChild(contentWrapper);
+      }
+
+      slide.appendChild(slideLink);
 
       if (index === 0) {
         slide.classList.add('active');
@@ -193,13 +197,5 @@ export default function decorate(block) {
       block.setAttribute('aria-label', 'Carousel de imágenes. Use las flechas para navegar.');
     }
   }
-
-  // Hide configuration divs
-  [3, 4, 5, 6].forEach((index) => {
-    const configDiv = block.querySelector(`:scope div:nth-child(${index})`);
-    if (configDiv) {
-      configDiv.style.display = 'none';
-    }
-  });
 }
 

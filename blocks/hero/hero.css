@@ -23,10 +23,6 @@
   opacity: 0;
   transition: opacity var(--transition-slower) ease-in-out;
   pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 24px;
 }
 
 .hero-slide.active {
@@ -35,33 +31,67 @@
   z-index: 1;
 }
 
-/* Carousel overlay */
-.hero-slide::before {
+/* Clickable slide link */
+.hero-slide-link {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--transition-base);
+}
+
+.hero-slide-link:hover {
+  transform: scale(1.02);
+}
+
+/* Overlay */
+.hero-slide-link::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--overlay-dark);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
   z-index: 1;
 }
 
 /* Content above overlay */
-.hero-slide > * {
+.hero-content {
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+/* Background image */
+.hero-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* --------------------------
    Headings & Paragraphs
 --------------------------- */
-.hero h1,
-.hero h2,
-.hero h3,
-.hero h4,
-.hero h5,
-.hero h6,
-.hero p {
+.hero-content h1,
+.hero-content h2,
+.hero-content h3,
+.hero-content h4,
+.hero-content h5,
+.hero-content h6,
+.hero-content p {
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
   color: var(--text-white);
   text-align: center;
@@ -69,50 +99,34 @@
   animation: fadeInUp var(--duration-slow) ease-out;
 }
 
-.hero h1 {
+.hero-content h1 {
   font-size: var(--font-size-h1);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
+  margin-bottom: 20px;
 }
 
-/* Special underline (only for h1 by default) */
-.hero h1::after {
+.hero-content p {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-normal);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Special underline for h1 */
+.hero-content h1::after {
   background-color: var(--primary-color);
   content: "";
   display: block;
   height: 4px;
-  margin: 20px auto 30px;
+  margin: 20px auto 0;
   width: 128px;
   transition: width var(--transition-base) ease-in-out;
 }
 
-/* Remove underline when class applied */
-.hero.removeunderline h1::after,
-.hero.removeunderline h2::after,
-.hero.removeunderline h3::after,
-.hero.removeunderline h4::after,
-.hero.removeunderline h5::after,
-.hero.removeunderline h6::after {
-  display: none;
-}
-
-/* --------------------------
-   Hero Background Image
---------------------------- */
-.hero picture,
-.hero-slide picture {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  box-sizing: border-box;
-}
-
-.hero img,
-.hero-slide img {
-  object-fit: cover;
-  object-position: center;
-  width: 100%;
-  height: 100%;
+/* Hover effect on slide link */
+.hero-slide-link:hover .hero-content h1::after {
+  width: 180px;
 }
 
 /* === CAROUSEL NAVIGATION DOTS === */
