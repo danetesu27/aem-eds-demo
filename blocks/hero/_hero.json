@@ -14,6 +14,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Hero Slide",
+      "id": "hero-slide",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Slide",
+              "model": "hero-slide"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -21,34 +36,96 @@
       "id": "hero",
       "fields": [
         {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Block Title",
+          "description": "Optional title for the hero block",
+          "value": ""
+        },
+        {
+          "component": "boolean",
+          "label": "Enable Underline",
+          "description": "Show underline decoration on titles",
+          "name": "enableunderline",
+          "value": "false",
+          "valueType": "boolean"
+        },
+        {
+          "component": "select",
+          "name": "layoutstyle",
+          "label": "Layout Style",
+          "description": "Choose the hero layout",
+          "valueType": "string",
+          "options": [
+            { "name": "Overlay", "value": "overlay" },
+            { "name": "Image Left", "value": "image-left" },
+            { "name": "Image Right", "value": "image-right" },
+            { "name": "Image Top", "value": "image-top" },
+            { "name": "Image Bottom", "value": "image-bottom" }
+          ],
+          "value": "overlay"
+        },
+        {
+          "component": "select",
+          "name": "ctastyle",
+          "label": "CTA Style",
+          "description": "Button style for call-to-action",
+          "valueType": "string",
+          "options": [
+            { "name": "Default", "value": "default" },
+            { "name": "Primary Button", "value": "cta-button" },
+            { "name": "Secondary Button", "value": "cta-button-secondary" },
+            { "name": "Link", "value": "cta-link" }
+          ],
+          "value": "default"
+        },
+        {
+          "component": "select",
+          "name": "backgroundstyle",
+          "label": "Background Style",
+          "description": "Background theme",
+          "valueType": "string",
+          "options": [
+            { "name": "Default", "value": "default" },
+            { "name": "Dark", "value": "theme-dark" },
+            { "name": "Light", "value": "theme-light" }
+          ],
+          "value": "default"
+        }
+      ]
+    },
+    {
+      "id": "hero-slide",
+      "fields": [
+        {
           "component": "reference",
           "valueType": "string",
           "name": "image",
-          "label": "Image",
+          "label": "Slide Image",
+          "description": "Background image for this slide",
           "multi": false
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "imageAlt",
-          "label": "Alt",
+          "label": "Image Alt Text",
+          "description": "Alternative text for accessibility",
           "value": ""
         },
         {
           "component": "richtext",
           "name": "text",
           "value": "",
-          "label": "Text",
+          "label": "Slide Content",
+          "description": "Title and description for this slide",
           "valueType": "string"
-        },
-        {
-              "component": "boolean",
-              "label": "Enable Underline in Title",
-              "description": "Enable underline in title",
-              "name": "enableunderline",
-              "value": "true",
-              "valueType": "boolean"
-        },
+        }
+      ]
+    }
+  ]
+}
         {
           "component": "select",
           "name": "herolayout",
