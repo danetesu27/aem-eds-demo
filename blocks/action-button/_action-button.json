@@ -1,0 +1,76 @@
+{
+  "definitions": [
+    {
+      "title": "Action Button",
+      "id": "action-button",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Action Button",
+              "model": "action-button"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "action-button",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "link",
+          "label": "Button Link",
+          "required": true,
+          "value": "#"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Button Label",
+          "required": true,
+          "value": "Click Here"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Button Title (tooltip)",
+          "value": ""
+        },
+        {
+          "component": "select",
+          "name": "style",
+          "label": "Button Style",
+          "valueType": "string",
+          "value": "default-button",
+          "options": [
+            {
+              "name": "Default",
+              "value": "default-button"
+            },
+            {
+              "name": "Primary",
+              "value": "primary-button"
+            },
+            {
+              "name": "Secondary",
+              "value": "secondary-button"
+            },
+            {
+              "name": "Dark",
+              "value": "dark-button"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
+

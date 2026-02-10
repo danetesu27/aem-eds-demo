@@ -118,6 +118,21 @@
           }
         },
         {
+          "title": "Action Button",
+          "id": "action-button",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Action Button",
+                  "model": "action-button"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Cards",
           "id": "cards",
           "plugins": {
@@ -255,7 +270,7 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "Footer",
-                  "model": "footer"
+                  "filter": "footer"
                 }
               }
             }
@@ -804,7 +819,7 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "Header",
-                  "model": "header"
+                  "filter": "header"
                 }
               }
             }
@@ -812,14 +827,14 @@
         },
         {
           "title": "Navigation Item",
-          "id": "nav-item",
+          "id": "navigation-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "Nav Item",
-                  "model": "nav-item"
+                  "name": "Navigation Item",
+                  "model": "navigation-item"
                 }
               }
             }
@@ -834,7 +849,7 @@
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
                   "name": "Hero",
-                  "model": "hero"
+                  "filter": "hero"
                 }
               }
             }
@@ -848,7 +863,7 @@
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "Slide",
+                  "name": "Hero Slide",
                   "model": "hero-slide"
                 }
               }
@@ -880,6 +895,21 @@
                 "template": {
                   "name": "Search",
                   "model": "search"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Separator",
+          "id": "separator",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Separator",
+                  "model": "separator"
                 }
               }
             }

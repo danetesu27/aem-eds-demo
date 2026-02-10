@@ -286,6 +286,59 @@
     ]
   },
   {
+    "id": "action-button",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "link",
+        "label": "Button Link",
+        "required": true,
+        "value": "#"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Button Label",
+        "required": true,
+        "value": "Click Here"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Button Title (tooltip)",
+        "value": ""
+      },
+      {
+        "component": "select",
+        "name": "style",
+        "label": "Button Style",
+        "valueType": "string",
+        "value": "default-button",
+        "options": [
+          {
+            "name": "Default",
+            "value": "default-button"
+          },
+          {
+            "name": "Primary",
+            "value": "primary-button"
+          },
+          {
+            "name": "Secondary",
+            "value": "secondary-button"
+          },
+          {
+            "name": "Dark",
+            "value": "dark-button"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {
@@ -790,35 +843,6 @@
     ]
   },
   {
-    "id": "footer",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "logo",
-        "label": "Footer Logo",
-        "description": "Logo de CaixaBank para el footer",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "logoAlt",
-        "label": "Logo Alt Text",
-        "description": "Texto alternativo del logo",
-        "value": "CaixaBank"
-      },
-      {
-        "component": "richtext",
-        "name": "copyright",
-        "value": "",
-        "label": "Copyright Text",
-        "description": "Texto de copyright y legal",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "footer-section",
     "fields": [
       {
@@ -826,15 +850,13 @@
         "valueType": "string",
         "name": "title",
         "label": "Section Title",
-        "description": "Título de la sección del footer",
         "value": ""
       },
       {
         "component": "richtext",
-        "name": "content",
+        "name": "text",
         "value": "",
-        "label": "Section Content",
-        "description": "Contenido de la sección (enlaces, texto, etc.)",
+        "label": "Content",
         "valueType": "string"
       }
     ]
@@ -5756,99 +5778,64 @@
     ]
   },
   {
-    "id": "header",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "logo",
-        "label": "Logo",
-        "description": "Logo de CaixaBank",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "logoAlt",
-        "label": "Logo Alt Text",
-        "description": "Texto alternativo del logo",
-        "value": "CaixaBank"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "logoLink",
-        "label": "Logo Link",
-        "description": "URL del logo (usualmente la home)",
-        "value": "/"
-      }
-    ]
-  },
-  {
-    "id": "nav-item",
+    "id": "navigation-item",
     "fields": [
       {
         "component": "text",
         "valueType": "string",
         "name": "title",
-        "label": "Navigation Title",
-        "description": "Texto del enlace de navegación",
-        "value": ""
+        "label": "Link Text",
+        "required": true
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "link",
         "label": "Link URL",
-        "description": "URL de destino",
-        "value": ""
-      },
-      {
-        "component": "boolean",
-        "label": "Open in New Tab",
-        "description": "Abrir enlace en nueva pestaña",
-        "name": "newTab",
-        "value": "false",
-        "valueType": "boolean"
-      },
-      {
-        "component": "boolean",
-        "label": "Is CTA Button",
-        "description": "Mostrar como botón CTA en lugar de enlace",
-        "name": "isCTA",
-        "value": "false",
-        "valueType": "boolean"
+        "required": true,
+        "value": "#"
       }
     ]
   },
   {
-    "id": "hero",
+    "id": "hero-slide",
     "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
       {
         "component": "text",
         "valueType": "string",
-        "name": "title",
-        "label": "Block Title",
-        "description": "Optional title for the hero block",
+        "name": "imageAlt",
+        "label": "Alt",
         "value": ""
       },
       {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      },
+      {
         "component": "boolean",
-        "label": "Enable Underline",
-        "description": "Show underline decoration on titles",
+        "label": "Enable Underline in Title",
+        "description": "Enable underline in title",
         "name": "enableunderline",
-        "value": "false",
+        "value": "true",
         "valueType": "boolean"
       },
       {
         "component": "select",
-        "name": "layoutstyle",
-        "label": "Layout Style",
-        "description": "Choose the hero layout",
-        "valueType": "string",
+        "name": "herolayout",
+        "label": "Hero Layout Style",
         "options": [
           {
-            "name": "Overlay",
+            "name": "Default",
             "value": "overlay"
           },
           {
@@ -5866,86 +5853,58 @@
           {
             "name": "Image Bottom",
             "value": "image-bottom"
+          },
+          {
+            "name": "Image-Background Text-Left",
+            "value": "image-background-text-left"
+          },
+          {
+            "name": "Image-Background Text-Right",
+            "value": "image-background-text-right"
           }
-        ],
-        "value": "overlay"
+        ]
       },
       {
         "component": "select",
         "name": "ctastyle",
         "label": "CTA Style",
-        "description": "Button style for call-to-action",
-        "valueType": "string",
         "options": [
           {
-            "name": "Default",
-            "value": "default"
+            "name": "default",
+            "value": ""
           },
           {
-            "name": "Primary Button",
-            "value": "cta-button"
+            "name": "Button",
+            "value": "button"
           },
           {
-            "name": "Secondary Button",
-            "value": "cta-button-secondary"
+            "name": "Button secondary",
+            "value": "button-secondary"
           },
           {
             "name": "Link",
-            "value": "cta-link"
+            "value": "link"
           }
-        ],
-        "value": "default"
+        ]
       },
       {
         "component": "select",
         "name": "backgroundstyle",
         "label": "Background Style",
-        "description": "Background theme",
-        "valueType": "string",
         "options": [
           {
             "name": "Default",
             "value": "default"
           },
           {
-            "name": "Dark",
+            "name": "Theme Dark",
             "value": "theme-dark"
           },
           {
-            "name": "Light",
+            "name": "Theme Light",
             "value": "theme-light"
           }
-        ],
-        "value": "default"
-      }
-    ]
-  },
-  {
-    "id": "hero-slide",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Slide Image",
-        "description": "Background image for this slide",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "imageAlt",
-        "label": "Image Alt Text",
-        "description": "Alternative text for accessibility",
-        "value": ""
-      },
-      {
-        "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Slide Content",
-        "description": "Title and description for this slide",
-        "valueType": "string"
+        ]
       }
     ]
   },
@@ -5969,6 +5928,57 @@
         "component": "aem-content",
         "name": "searchPath",
         "label": "Search Path"
+      }
+    ]
+  },
+  {
+    "id": "separator",
+    "fields": [
+      {
+        "component": "select",
+        "name": "style",
+        "label": "Separator Style",
+        "valueType": "string",
+        "value": "solid",
+        "options": [
+          {
+            "name": "Solid Line",
+            "value": "solid"
+          },
+          {
+            "name": "Dashed Line",
+            "value": "dashed"
+          },
+          {
+            "name": "Dotted Line",
+            "value": "dotted"
+          },
+          {
+            "name": "Thick Line",
+            "value": "thick"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "spacing",
+        "label": "Spacing",
+        "valueType": "string",
+        "value": "medium",
+        "options": [
+          {
+            "name": "Small",
+            "value": "small"
+          },
+          {
+            "name": "Medium",
+            "value": "medium"
+          },
+          {
+            "name": "Large",
+            "value": "large"
+          }
+        ]
       }
     ]
   },

@@ -5,9 +5,10 @@
       "section"
     ]
   },
-   {
+  {
     "id": "section",
     "components": [
+      "action-button",
       "button",
       "cards",
       "carousel",
@@ -15,11 +16,16 @@
       "contentfragment",
       "dm-asset",
       "dm-template",
+      "find-a-doctor",
+      "footer",
+      "forex",
       "fragment",
+      "header",
       "hero",
       "iframe",
       "image",
       "search",
+      "separator",
       "teaser",
       "text",
       "title",
@@ -30,6 +36,24 @@
     "id": "cards",
     "components": [
       "card"
+    ]
+  },
+  {
+    "id": "hero",
+    "components": [
+      "hero-slide"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-section"
     ]
   },
   {
@@ -45,7 +69,7 @@
       "dm-asset",
       "dm-template",
       "image",
-      "text",      
+      "text",
       "title",
       "video"
     ]
