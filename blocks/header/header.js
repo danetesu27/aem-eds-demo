@@ -483,13 +483,15 @@ export default async function decorate(block) {
   const langCode = getLanguage();
   console.log("langCode :"+langCode);
 
-   const isAuthor = isAuthorEnvironment();
-    let navPath =`/${langCode}/nav`;
-  
-    if(isAuthor){
-      navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${siteName}${PATH_PREFIX}/${langCode}/nav`;
-    }
-   
+  const isAuthor = isAuthorEnvironment();
+  let navPath = `/nav`;
+
+  if(isAuthor){
+    // Para AEM Author, usar la ruta correcta
+    navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/aem-eds-demo/en/nav`;
+  }
+
+
 
   
   //const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
