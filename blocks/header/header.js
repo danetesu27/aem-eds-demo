@@ -42,6 +42,18 @@ function toggleMenu(nav, forceExpanded = null) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  // Extract header configuration from block cells
+  const headerConfig = {};
+  const cells = block.querySelectorAll(':scope > div > div');
+
+  // Map cells to config (following the model order)
+  if (cells.length >= 1) headerConfig.logo = cells[0]?.querySelector('img')?.src || cells[0]?.textContent?.trim();
+  if (cells.length >= 2) headerConfig.logoLink = cells[1]?.textContent?.trim() || '/';
+  if (cells.length >= 3) headerConfig.ctaText = cells[2]?.textContent?.trim();
+  if (cells.length >= 4) headerConfig.ctaLink = cells[3]?.textContent?.trim();
+  if (cells.length >= 5) headerConfig.stockPrice = cells[4]?.textContent?.trim();
+  if (cells.length >= 6) headerConfig.languages = cells[5]?.textContent?.trim();
+
   // load nav as fragment
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
@@ -52,22 +64,6 @@ export default async function decorate(block) {
   const nav = document.createElement('nav');
   nav.id = 'nav';
 
-  // Create nav structure
-  while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
-
-  // Extract header configuration from first row (if exists)
-  const headerConfig = {};
-  const configRow = nav.querySelector(':scope > div:first-child');
-  if (configRow) {
-    const cells = configRow.querySelectorAll(':scope > div');
-    cells.forEach((cell) => {
-      const key = cell.querySelector('strong, b')?.textContent?.toLowerCase().trim();
-      const value = cell.textContent.replace(key, '').trim();
-      if (key) headerConfig[key] = value;
-    });
-    configRow.remove(); // Remove config row from DOM
-  }
-
   // Create header structure
   const headerTop = document.createElement('div');
   headerTop.className = 'nav-header-top';
@@ -76,40 +72,38 @@ export default async function decorate(block) {
   const navBrand = document.createElement('div');
   navBrand.className = 'nav-brand';
   const logoLink = document.createElement('a');
-  logoLink.href = headerConfig.logolink || '/';
+  logoLink.href = headerConfig.logoLink || '/';
   logoLink.setAttribute('aria-label', 'Home');
 
-  if (headerConfig.logo) {
+  if (headerConfig.logo && headerConfig.logo.startsWith('http')) {
     const logoImg = document.createElement('img');
     logoImg.src = headerConfig.logo;
     logoImg.alt = 'Logo';
     logoImg.className = 'nav-logo';
     logoLink.appendChild(logoImg);
   } else {
-    logoLink.textContent = 'CaixaBank';
+    logoLink.textContent = headerConfig.logo || 'CaixaBank';
   }
   navBrand.appendChild(logoLink);
   headerTop.appendChild(navBrand);
 
-  // Nav sections (menu items)
-  const navSections = nav.querySelector('.nav-sections') || document.createElement('div');
-  if (!navSections.classList.contains('nav-sections')) {
-    navSections.classList.add('nav-sections');
-    // Move all remaining content to nav-sections
-    while (nav.firstChild) {
-      navSections.appendChild(nav.firstChild);
+  // Nav sections (menu items from fragment)
+  const navSections = document.createElement('div');
+  navSections.classList.add('nav-sections');
+
+  if (fragment) {
+    // Get navigation items from fragment
+    while (fragment.firstElementChild) {
+      navSections.appendChild(fragment.firstElementChild);
     }
   }
 
   // Convert nav items
-  const navItems = navSections.querySelectorAll(':scope ul > li');
-  navItems.forEach((item) => {
-    const link = item.querySelector('a');
-    if (link) {
-      // Check if current page
-      if (window.location.pathname === new URL(link.href).pathname) {
-        link.setAttribute('aria-current', 'page');
-      }
+  const navItems = navSections.querySelectorAll('ul > li a');
+  navItems.forEach((link) => {
+    // Check if current page
+    if (window.location.pathname === new URL(link.href).pathname) {
+      link.setAttribute('aria-current', 'page');
     }
   });
 
@@ -136,21 +130,21 @@ export default async function decorate(block) {
   }
 
   // Stock Price
-  if (headerConfig.stockprice) {
+  if (headerConfig.stockPrice) {
     const stockDiv = document.createElement('div');
     stockDiv.className = 'nav-stock';
-    stockDiv.textContent = headerConfig.stockprice;
+    stockDiv.textContent = headerConfig.stockPrice;
     navTools.appendChild(stockDiv);
   }
 
   // CTA Button
-  if (headerConfig.ctatext) {
+  if (headerConfig.ctaText) {
     const ctaDiv = document.createElement('div');
     ctaDiv.className = 'nav-cta';
     const ctaLink = document.createElement('a');
-    ctaLink.href = headerConfig.ctalink || '#';
+    ctaLink.href = headerConfig.ctaLink || '#';
     ctaLink.className = 'button primary';
-    ctaLink.textContent = headerConfig.ctatext;
+    ctaLink.textContent = headerConfig.ctaText;
     ctaDiv.appendChild(ctaLink);
     navTools.appendChild(ctaDiv);
   }

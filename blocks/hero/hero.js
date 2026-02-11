@@ -88,6 +88,19 @@ export default function decorate(block) {
       const linkUrl = link?.href || '#';
       const textContent = slide.querySelector('h1, h2, h3, h4, h5, h6, p:not(.button-container)');
 
+      // Extract layout options from data attributes or divs
+      const cells = slide.querySelectorAll(':scope > div');
+      let textPosition = 'center';
+      let textAlign = 'center';
+
+      // Check if we have config cells (image, alt, text, link, textPosition, textAlign)
+      if (cells.length >= 5) {
+        textPosition = cells[4]?.textContent?.trim().toLowerCase() || 'center';
+      }
+      if (cells.length >= 6) {
+        textAlign = cells[5]?.textContent?.trim().toLowerCase() || 'center';
+      }
+
       // Clear slide
       slide.innerHTML = '';
       slide.classList.add('hero-slide');
@@ -99,6 +112,10 @@ export default function decorate(block) {
       const slideLink = document.createElement('a');
       slideLink.href = linkUrl;
       slideLink.className = 'hero-slide-link';
+
+      // Add layout classes
+      slideLink.classList.add(`text-position-${textPosition}`);
+      slideLink.classList.add(`text-align-${textAlign}`);
       slideLink.setAttribute('aria-label', textContent?.textContent || `Slide ${index + 1}`);
 
       // Add background image

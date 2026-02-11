@@ -5883,6 +5883,56 @@
         "label": "Link URL",
         "value": "#",
         "description": "URL to navigate when clicking the slide"
+      },
+      {
+        "component": "select",
+        "name": "textPosition",
+        "label": "Text Position",
+        "valueType": "string",
+        "value": "center",
+        "options": [
+          {
+            "name": "Center",
+            "value": "center"
+          },
+          {
+            "name": "Left",
+            "value": "left"
+          },
+          {
+            "name": "Right",
+            "value": "right"
+          },
+          {
+            "name": "Top",
+            "value": "top"
+          },
+          {
+            "name": "Bottom",
+            "value": "bottom"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "textAlign",
+        "label": "Text Alignment",
+        "valueType": "string",
+        "value": "center",
+        "options": [
+          {
+            "name": "Left",
+            "value": "left"
+          },
+          {
+            "name": "Center",
+            "value": "center"
+          },
+          {
+            "name": "Right",
+            "value": "right"
+          }
+        ]
       }
     ]
   },
