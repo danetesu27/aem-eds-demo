@@ -80,40 +80,83 @@ export default function decorate(block) {
   // Wrap each top-level div as a slide
   const slides = Array.from(block.children);
 
+  console.log('=== HERO BLOCK DEBUG ===');
+  console.log('Total slides:', slides.length);
+
   if (slides.length > 0) {
     slides.forEach((slide, index) => {
+      console.log(`\n--- Slide ${index + 1} ---`);
+      console.log('Slide HTML:', slide.outerHTML.substring(0, 500));
+      
       // Extract slide data
       const picture = slide.querySelector('picture');
       const link = slide.querySelector('a');
       const linkUrl = link?.href || '#';
       const textContent = slide.querySelector('h1, h2, h3, h4, h5, h6, p:not(.button-container)');
 
-      // Extract layout options from block structure
+      // Extract layout options - works in BOTH Universal Editor AND published site
       // Model fields order: image, imageAlt, text, link, textPosition, textAlign
-      // Read from child divs (published structure has sequential divs)
       let textPosition = 'center';
       let textAlign = 'center';
 
       const cells = Array.from(slide.querySelectorAll(':scope > div'));
+      console.log('Direct child cells:', cells.length);
+      cells.forEach((cell, idx) => {
+        console.log(`  Cell ${idx}:`, {
+          classes: cell.className,
+          hasSelect: !!cell.querySelector('select'),
+          hasInput: !!cell.querySelector('input'),
+          text: cell.textContent.trim().substring(0, 50)
+        });
+      });
+      
+      // Helper to extract value from cell - handles both environments:
+      // - Universal Editor: <select> for dropdowns, nested ls-field wrappers
+      // - Published site: simple text in divs
+      const getFieldValue = (cell) => {
+        if (!cell) return '';
+        
+        // 1. Check for select element (Universal Editor dropdowns)
+        const select = cell.querySelector('select');
+        if (select && select.value) {
+          return select.value.trim().toLowerCase();
+        }
+        
+        // 2. Check for input element (Universal Editor text fields)
+        const input = cell.querySelector('input[type="text"]');
+        if (input && input.value) {
+          return input.value.trim().toLowerCase();
+        }
+        
+        // 3. Get text content (works for both - goes deep through nested divs)
+        const text = cell.textContent?.trim().toLowerCase() || '';
+        return text;
+      };
 
-      // textPosition is at index 4 (0-based: cells[4])
-      // textAlign is at index 5 (0-based: cells[5])
+      // textPosition at index 4, textAlign at index 5
       if (cells.length > 4) {
-        const posValue = cells[4].textContent?.trim().toLowerCase();
+        const posValue = getFieldValue(cells[4]);
+        console.log(`  Reading textPosition from cell 4: "${posValue}"`);
         if (['center', 'left', 'right', 'top', 'bottom'].includes(posValue)) {
           textPosition = posValue;
+          console.log(`  ✓ Applied textPosition: ${textPosition}`);
+        } else {
+          console.log(`  ✗ Invalid textPosition: "${posValue}"`);
         }
       }
 
       if (cells.length > 5) {
-        const alignValue = cells[5].textContent?.trim().toLowerCase();
+        const alignValue = getFieldValue(cells[5]);
+        console.log(`  Reading textAlign from cell 5: "${alignValue}"`);
         if (['left', 'center', 'right'].includes(alignValue)) {
           textAlign = alignValue;
+          console.log(`  ✓ Applied textAlign: ${textAlign}`);
+        } else {
+          console.log(`  ✗ Invalid textAlign: "${alignValue}"`);
         }
       }
 
-      // Debug log to verify layout options
-      console.log(`Hero Slide ${index + 1} - Position: ${textPosition}, Align: ${textAlign}`);
+      console.log(`Final layout: position=${textPosition}, align=${textAlign}`);
 
       // Clear slide and set up as carousel item
       slide.innerHTML = '';

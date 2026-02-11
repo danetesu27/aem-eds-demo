@@ -42,8 +42,7 @@ function toggleMenu(nav, forceExpanded = null) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // Extract header configuration from block DOM structure
-  // Published structure has sequential child divs based on model field order
+  // Extract configuration - works in BOTH Universal Editor AND published site
   // Model fields order: logo, logoLink, ctaText, ctaLink, stockPrice, languages
   
   const headerConfig = {
@@ -55,49 +54,63 @@ export default async function decorate(block) {
     languages: null,
   };
 
-  // Read configuration from child divs by index
   const cells = Array.from(block.querySelectorAll(':scope > div'));
   
-  // Field 0: Logo (image or text)
+  // Helper to extract value - handles both environments:
+  // - Universal Editor: <input>, <select>, nested wrappers
+  // - Published site: simple text in divs
+  const getFieldValue = (cell, fieldType = 'text') => {
+    if (!cell) return '';
+    
+    // For image/reference fields
+    if (fieldType === 'image') {
+      const img = cell.querySelector('img') || cell.querySelector('picture img');
+      if (img) return img.src;
+    }
+    
+    // For text fields - check all possible locations
+    // 1. Input element (Universal Editor)
+    const input = cell.querySelector('input[type="text"]');
+    if (input && input.value) return input.value.trim();
+    
+    // 2. Select element (Universal Editor dropdowns)
+    const select = cell.querySelector('select');
+    if (select && select.value) return select.value.trim();
+    
+    // 3. Plain text (published site - goes deep through nested divs)
+    return cell.textContent?.trim() || '';
+  };
+
+  // Extract all fields by index
   if (cells[0]) {
-    const img = cells[0].querySelector('img') || cells[0].querySelector('picture img');
-    headerConfig.logo = img ? img.src : cells[0].textContent?.trim();
+    headerConfig.logo = getFieldValue(cells[0], 'image') || getFieldValue(cells[0]);
   }
 
-  // Field 1: Logo Link
   if (cells[1]) {
-    headerConfig.logoLink = cells[1].textContent?.trim() || '/';
+    headerConfig.logoLink = getFieldValue(cells[1]) || '/';
   }
 
-  // Field 2: CTA Text
   if (cells[2]) {
-    headerConfig.ctaText = cells[2].textContent?.trim();
+    headerConfig.ctaText = getFieldValue(cells[2]);
   }
 
-  // Field 3: CTA Link
   if (cells[3]) {
-    headerConfig.ctaLink = cells[3].textContent?.trim() || '#';
+    headerConfig.ctaLink = getFieldValue(cells[3]) || '#';
   }
 
-  // Field 4: Stock Price
   if (cells[4]) {
-    headerConfig.stockPrice = cells[4].textContent?.trim();
+    headerConfig.stockPrice = getFieldValue(cells[4]);
   }
 
-  // Field 5: Languages
   if (cells[5]) {
-    headerConfig.languages = cells[5].textContent?.trim();
+    headerConfig.languages = getFieldValue(cells[5]);
   }
 
-  // Debug log to verify values are being extracted
-  console.log('Header Config:', headerConfig);
+  // Debug: log configuration
+  console.log('Header cells count:', cells.length);
+  console.log('Header Config extracted:', headerConfig);
 
-  // load nav as fragment
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
-
-  // decorate nav DOM
+  // Clear block and create new header structure
   block.textContent = '';
   const nav = document.createElement('nav');
   nav.id = 'nav';
@@ -125,25 +138,34 @@ export default async function decorate(block) {
   navBrand.appendChild(logoLink);
   headerTop.appendChild(navBrand);
 
-  // Nav sections (menu items from fragment)
+  // Nav sections - can be populated from metadata or left empty
+  // If you need navigation items, add them to a /nav fragment
   const navSections = document.createElement('div');
   navSections.classList.add('nav-sections');
-
-  if (fragment) {
-    // Get navigation items from fragment
-    while (fragment.firstElementChild) {
-      navSections.appendChild(fragment.firstElementChild);
+  
+  // Try to load nav fragment if it exists (optional)
+  const navMeta = getMetadata('nav');
+  if (navMeta) {
+    try {
+      const navPath = new URL(navMeta, window.location).pathname;
+      const fragment = await loadFragment(navPath);
+      if (fragment) {
+        while (fragment.firstElementChild) {
+          navSections.appendChild(fragment.firstElementChild);
+        }
+        
+        // Mark current page
+        const navItems = navSections.querySelectorAll('ul > li a');
+        navItems.forEach((link) => {
+          if (window.location.pathname === new URL(link.href).pathname) {
+            link.setAttribute('aria-current', 'page');
+          }
+        });
+      }
+    } catch (error) {
+      console.log('Nav fragment not found, using header without navigation items');
     }
   }
-
-  // Convert nav items
-  const navItems = navSections.querySelectorAll('ul > li a');
-  navItems.forEach((link) => {
-    // Check if current page
-    if (window.location.pathname === new URL(link.href).pathname) {
-      link.setAttribute('aria-current', 'page');
-    }
-  });
 
   // Tools section (CTA, Languages, Stock Price)
   const navTools = document.createElement('div');
@@ -214,5 +236,7 @@ export default async function decorate(block) {
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
   block.append(navWrapper);
+  
+  console.log('Header rendered. Logo:', headerConfig.logo, 'CTA:', headerConfig.ctaText);
 }
 
