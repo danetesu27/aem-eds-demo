@@ -42,17 +42,55 @@ function toggleMenu(nav, forceExpanded = null) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // Extract header configuration from block cells
-  const headerConfig = {};
-  const cells = block.querySelectorAll(':scope > div > div');
+  // Extract header configuration from block DOM structure
+  // Published structure has sequential child divs based on model field order
+  // Model fields order: logo, logoLink, ctaText, ctaLink, stockPrice, languages
+  
+  const headerConfig = {
+    logo: null,
+    logoLink: '/',
+    ctaText: null,
+    ctaLink: '#',
+    stockPrice: null,
+    languages: null,
+  };
 
-  // Map cells to config (following the model order)
-  if (cells.length >= 1) headerConfig.logo = cells[0]?.querySelector('img')?.src || cells[0]?.textContent?.trim();
-  if (cells.length >= 2) headerConfig.logoLink = cells[1]?.textContent?.trim() || '/';
-  if (cells.length >= 3) headerConfig.ctaText = cells[2]?.textContent?.trim();
-  if (cells.length >= 4) headerConfig.ctaLink = cells[3]?.textContent?.trim();
-  if (cells.length >= 5) headerConfig.stockPrice = cells[4]?.textContent?.trim();
-  if (cells.length >= 6) headerConfig.languages = cells[5]?.textContent?.trim();
+  // Read configuration from child divs by index
+  const cells = Array.from(block.querySelectorAll(':scope > div'));
+  
+  // Field 0: Logo (image or text)
+  if (cells[0]) {
+    const img = cells[0].querySelector('img') || cells[0].querySelector('picture img');
+    headerConfig.logo = img ? img.src : cells[0].textContent?.trim();
+  }
+
+  // Field 1: Logo Link
+  if (cells[1]) {
+    headerConfig.logoLink = cells[1].textContent?.trim() || '/';
+  }
+
+  // Field 2: CTA Text
+  if (cells[2]) {
+    headerConfig.ctaText = cells[2].textContent?.trim();
+  }
+
+  // Field 3: CTA Link
+  if (cells[3]) {
+    headerConfig.ctaLink = cells[3].textContent?.trim() || '#';
+  }
+
+  // Field 4: Stock Price
+  if (cells[4]) {
+    headerConfig.stockPrice = cells[4].textContent?.trim();
+  }
+
+  // Field 5: Languages
+  if (cells[5]) {
+    headerConfig.languages = cells[5].textContent?.trim();
+  }
+
+  // Debug log to verify values are being extracted
+  console.log('Header Config:', headerConfig);
 
   // load nav as fragment
   const navMeta = getMetadata('nav');

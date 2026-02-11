@@ -88,20 +88,34 @@ export default function decorate(block) {
       const linkUrl = link?.href || '#';
       const textContent = slide.querySelector('h1, h2, h3, h4, h5, h6, p:not(.button-container)');
 
-      // Extract layout options from data attributes or divs
-      const cells = slide.querySelectorAll(':scope > div');
+      // Extract layout options from block structure
+      // Model fields order: image, imageAlt, text, link, textPosition, textAlign
+      // Read from child divs (published structure has sequential divs)
       let textPosition = 'center';
       let textAlign = 'center';
 
-      // Check if we have config cells (image, alt, text, link, textPosition, textAlign)
-      if (cells.length >= 5) {
-        textPosition = cells[4]?.textContent?.trim().toLowerCase() || 'center';
-      }
-      if (cells.length >= 6) {
-        textAlign = cells[5]?.textContent?.trim().toLowerCase() || 'center';
+      const cells = Array.from(slide.querySelectorAll(':scope > div'));
+
+      // textPosition is at index 4 (0-based: cells[4])
+      // textAlign is at index 5 (0-based: cells[5])
+      if (cells.length > 4) {
+        const posValue = cells[4].textContent?.trim().toLowerCase();
+        if (['center', 'left', 'right', 'top', 'bottom'].includes(posValue)) {
+          textPosition = posValue;
+        }
       }
 
-      // Clear slide
+      if (cells.length > 5) {
+        const alignValue = cells[5].textContent?.trim().toLowerCase();
+        if (['left', 'center', 'right'].includes(alignValue)) {
+          textAlign = alignValue;
+        }
+      }
+
+      // Debug log to verify layout options
+      console.log(`Hero Slide ${index + 1} - Position: ${textPosition}, Align: ${textAlign}`);
+
+      // Clear slide and set up as carousel item
       slide.innerHTML = '';
       slide.classList.add('hero-slide');
       slide.setAttribute('role', 'tabpanel');
